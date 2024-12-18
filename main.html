@@ -15,7 +15,7 @@
     </tr>
   </thead>
   <tbody id="output">
-    <!-- Loading row, which will be removed once promises are resolved -->
+    <!-- This is the loading row which will be removed once the promises resolve -->
     <tr id="loading">
       <td colspan="2">Loading...</td>
     </tr>
@@ -53,6 +53,7 @@
       // Populate the table with the results
       const tableBody = document.getElementById('output');
       
+      // Ensure only the exact required rows are appended
       results.forEach(result => {
         const row = document.createElement('tr');
         row.innerHTML = `<td>${result.name}</td><td>${result.time.toFixed(3)}</td>`;
