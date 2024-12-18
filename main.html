@@ -1,35 +1,69 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <link rel="stylesheet" href="styles.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-      crossorigin="anonymous"
-    />
-  </head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise Timing Example</title>
+</head>
+<body>
 
-  <body>
-    <table class="table table-striped table-hover table-bordered">
-      <thead>
-        <tr>
-          <th>Promise Name</th>
-          <th>Time taken (s)</th>
-        </tr>
-        <tr>
-          <td colspan="2" id="loading">Loading...</td>
-        </tr>
-      </thead>
-      <tbody id="output"></tbody>
-    </table>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Promise</th>
+      <th>Time Taken (s)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="2" id="loadingRow">Loading...</td>
+    </tr>
+  </tbody>
+</table>
 
-    <script type="text/javascript" src="./script.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+<script>
+  // Function to create a promise that resolves after a random time between 1 and 3 seconds
+  function createRandomPromise(promiseName) {
+    const time = Math.random() * 2 + 1; // Random time between 1 and 3 seconds
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ name: promiseName, time: time });
+      }, time * 1000);
+    });
+  }
+
+  // Create 3 promises
+  const promise1 = createRandomPromise('Promise 1');
+  const promise2 = createRandomPromise('Promise 2');
+  const promise3 = createRandomPromise('Promise 3');
+
+  // Wait for all promises to resolve
+  Promise.all([promise1, promise2, promise3])
+    .then((results) => {
+      // Calculate the total time taken
+      const totalTime = results.reduce((sum, result) => sum + result.time, 0);
+      
+      // Remove the "Loading..." row
+      document.getElementById('loadingRow').remove();
+
+      // Populate the table with the results
+      const tableBody = document.querySelector('tbody');
+      
+      results.forEach(result => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${result.name}</td><td>${result.time.toFixed(3)}</td>`;
+        tableBody.appendChild(row);
+      });
+
+      // Add the total time row
+      const totalRow = document.createElement('tr');
+      totalRow.innerHTML = `<td>Total</td><td>${totalTime.toFixed(3)}</td>`;
+      tableBody.appendChild(totalRow);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+</script>
+
+</body>
 </html>
-
