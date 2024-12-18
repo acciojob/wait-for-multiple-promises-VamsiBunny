@@ -12,7 +12,7 @@ const promise2 = createRandomPromise('Promise 2');
 const promise3 = createRandomPromise('Promise 3');
 
 Promise.all([promise1, promise2, promise3]).then((results) => {
-  document.getElementById('loading').innerText = '';
+  document.getElementById('loading').style.display="none";
   
   const totalTime = results.reduce((sum, result) => sum + parseFloat(result.time), 0).toFixed(3);
 
