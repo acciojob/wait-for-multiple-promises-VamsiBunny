@@ -14,9 +14,10 @@
       <th>Time Taken (s)</th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
-      <td colspan="2" id="loadingRow">Loading...</td>
+  <tbody id="output">
+    <!-- This row will show while loading -->
+    <tr id="loading">
+      <td colspan="2">Loading...</td>
     </tr>
   </tbody>
 </table>
@@ -44,10 +45,13 @@
       const totalTime = results.reduce((sum, result) => sum + result.time, 0);
       
       // Remove the "Loading..." row
-      document.getElementById('loadingRow').remove();
+      const loadingRow = document.getElementById('loading');
+      if (loadingRow) {
+        loadingRow.remove();
+      }
 
       // Populate the table with the results
-      const tableBody = document.querySelector('tbody');
+      const tableBody = document.getElementById('output');
       
       results.forEach(result => {
         const row = document.createElement('tr');
