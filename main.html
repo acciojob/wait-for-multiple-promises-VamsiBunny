@@ -15,7 +15,7 @@
     </tr>
   </thead>
   <tbody id="output">
-    <!-- This row will show while loading -->
+    <!-- Loading row, which will be removed once promises are resolved -->
     <tr id="loading">
       <td colspan="2">Loading...</td>
     </tr>
@@ -44,7 +44,7 @@
       // Calculate the total time taken
       const totalTime = results.reduce((sum, result) => sum + result.time, 0);
       
-      // Remove the "Loading..." row
+      // Remove the "Loading..." row (if it's still present)
       const loadingRow = document.getElementById('loading');
       if (loadingRow) {
         loadingRow.remove();
