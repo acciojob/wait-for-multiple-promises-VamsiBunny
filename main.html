@@ -15,7 +15,7 @@
     </tr>
   </thead>
   <tbody id="output">
-    <!-- This is the loading row which will be removed once the promises resolve -->
+    <!-- This is the loading row which will be updated with results once the promises resolve -->
     <tr id="loading">
       <td colspan="2">Loading...</td>
     </tr>
@@ -44,26 +44,24 @@
       // Calculate the total time taken
       const totalTime = results.reduce((sum, result) => sum + result.time, 0);
       
-      // Remove the "Loading..." row (if it's still present)
+      // Get the "Loading..." row and update its content
       const loadingRow = document.getElementById('loading');
       if (loadingRow) {
-        loadingRow.remove();
+        // Clear the loading message and prepare to insert results
+        loadingRow.innerHTML = '';  // Clear out "Loading..."
+        
+        // Add the result rows for each promise
+        results.forEach(result => {
+          const row = document.createElement('tr');
+          row.innerHTML = `<td>${result.name}</td><td>${result.time.toFixed(3)}</td>`;
+          loadingRow.parentNode.appendChild(row);
+        });
+
+        // Add the total row
+        const totalRow = document.createElement('tr');
+        totalRow.innerHTML = `<td>Total</td><td>${totalTime.toFixed(3)}</td>`;
+        loadingRow.parentNode.appendChild(totalRow);
       }
-
-      // Populate the table with the results
-      const tableBody = document.getElementById('output');
-      
-      // Ensure only the exact required rows are appended
-      results.forEach(result => {
-        const row = document.createElement('tr');
-        row.innerHTML = `<td>${result.name}</td><td>${result.time.toFixed(3)}</td>`;
-        tableBody.appendChild(row);
-      });
-
-      // Add the total time row
-      const totalRow = document.createElement('tr');
-      totalRow.innerHTML = `<td>Total</td><td>${totalTime.toFixed(3)}</td>`;
-      tableBody.appendChild(totalRow);
     })
     .catch((error) => {
       console.error("Error:", error);
