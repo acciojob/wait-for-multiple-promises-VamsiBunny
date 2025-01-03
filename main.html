@@ -23,7 +23,7 @@
 </table>
 
 <script>
- function createRandomPromise(promiseName) {
+function createRandomPromise(promiseName) {
   const time = Math.random() * 2 + 1; // Random time between 1 and 3 seconds
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -43,14 +43,11 @@ Promise.all([promise1, promise2, promise3])
     // Calculate the total time taken
     const totalTime = results.reduce((sum, result) => sum + result.time, 0);
     
-    // Get the "Loading..." row and clear it properly
-    const loadingRow = document.getElementById('loading');
-    if (loadingRow) {
-      loadingRow.remove(); // Remove the loading row entirely
-    }
-    
     const outputTable = document.getElementById('output');
-    
+
+    // Clear the entire table before adding new rows
+    outputTable.innerHTML = '';
+
     // Add the result rows for each promise
     results.forEach(result => {
       const row = document.createElement('tr');
@@ -66,6 +63,7 @@ Promise.all([promise1, promise2, promise3])
   .catch((error) => {
     console.error("Error:", error);
   });
+
 
 </script>
 
